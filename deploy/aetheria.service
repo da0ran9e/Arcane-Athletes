@@ -1,0 +1,16 @@
+# systemd unit template. deploy/install-service.sh fills in the __PLACEHOLDERS__ and installs it.
+[Unit]
+Description=Aetheria Grand Prix (game server + Cloudflare tunnel)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=__USER__
+WorkingDirectory=__DIR__
+ExecStart=__NODE__ run.mjs
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

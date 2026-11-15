@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Track waypoint editor</title>
+<style>
+  body { margin: 0; font: 14px system-ui, sans-serif; background: #15172a; color: #eee; display: flex; height: 100vh; }
+  #side { width: 300px; padding: 12px; overflow: auto; border-right: 1px solid #333; display: grid; gap: 8px; align-content: start; }
+  #wrap { flex: 1; overflow: auto; }
+  canvas { display: block; cursor: crosshair; }
+  button, select, input { font: inherit; padding: 5px 8px; }
+  label { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  input[type=number] { width: 70px; }
+  ol { margin: 0; padding-left: 26px; max-height: 40vh; overflow: auto; }
+  li { cursor: pointer; } li.sel { color: #ffc83d; font-weight: 700; }
+  small { color: #aab; }
+</style>
+</head>
+<body>
+<div id="side">
+  <b>Track waypoint editor</b>
+  <small>Click the spaces in order from Start to Finish. Click a point (or a list row) to select it, then set its type. Save the downloaded file as <code>public/assets/tracks/track_N.json</code>.</small>
+  <label>Race <select id="race"><option value="1">1 Emerald Plains</option><option value="2">2 Wildwood Rapids</option><option value="3">3 Obsidian Spiral</option><option value="4">4 Celestial Vortex</option></select></label>
+  <label>Board image <input id="file" type="file" accept="image/*" style="width:170px"></label>
+  <label>Selected type <select id="type"><option>NORMAL</option><option>TRIP</option><option>STAR</option><option>ARROW</option></select></label>
+  <label>Arrow steps (±) <input id="steps" type="number" value="2"></label>
+  <label>Corner 1 index <input id="c1" type="number" value="0"></label>
+  <label>Corner 2 index <input id="c2" type="number" value="0"></label>
+  <div><button id="undo">Undo last</button> <button id="clear">Clear</button> <button id="save">Download JSON</button></div>
+  <ol id="list" start="0"></ol>
+</div>
+<div id="wrap"><canvas id="cv"></canvas></div>
+<script type="module">
+const $ = id => document.getElementById(id), cv = $('cv'), g = cv.getContext('2d');
+const NAMES = ['Emerald Plains', 'Wildwood Rapids', 'Obsidian Spiral', 'Celestial Vortex'];
+let img = null, pts = [], sel = -1, path = '', scale = 1;
+
+async function loadRace() { // start from the JSON + image already in assets, if any
+  const n = $('race').value;
+  pts = []; sel = -1; img = null;
+  try {
+    const j = await (await fetch(`assets/tracks/track_${n}.json`)).json();
+    path = j.image_path; $('c1').value = j.first_corner_index; $('c2').value = j.second_corner_index;
+    pts = j.waypoints.map(w => ({ x: w.norm_x, y: w.norm_y, type: ['START', 'FINISH'].includes(w.type) ? 'NORMAL' : w.type, steps: w.steps }));
+    await setImage(path);
+  } catch { draw(); }
+}
+function setImage(src) {
+  return new Promise(res => { const i = new Image(); i.onload = () => { img = i; scale = Math.min(1, 1400 / i.width); cv.width = i.width * scale; cv.height = i.height * scale; draw(); res(); }; i.onerror = () => { draw(); res(); }; i.src = src; });
+}
+function draw() {
+  g.clearRect(0, 0, cv.width, cv.height);
+  if (img) g.drawImage(img, 0, 0, cv.width, cv.height);
+  g.lineWidth = 2; g.strokeStyle = '#fff'; g.beginPath();
+  pts.forEach((p, i) => i ? g.lineTo(p.x * cv.width, p.y * cv.height) : g.moveTo(p.x * cv.width, p.y * cv.height)); g.stroke();
+  g.textAlign = 'center'; g.textBaseline = 'middle'; g.font = 'bold 12px sans-serif';
+  pts.forEach((p, i) => {
+    const t = type(i);
+    g.beginPath(); g.arc(p.x * cv.width, p.y * cv.height, 12, 0, 7);
+    g.fillStyle = { START: '#fff', FINISH: '#000', TRIP: '#e2574c', STAR: '#ffd54a', ARROW: '#4cc38a' }[t] || '#39f'; g.fill();
+    g.strokeStyle = i === sel ? '#ffc83d' : '#fff'; g.lineWidth = i === sel ? 4 : 1.5; g.stroke();
+    g.fillStyle = t === 'FINISH' || t === 'NORMAL' ? '#fff' : '#000'; g.fillText(i, p.x * cv.width, p.y * cv.height);
+  });
+  $('list').innerHTML = pts.map((p, i) => `<li data-i="${i}" class="${i === sel ? 'sel' : ''}">${type(i)}${type(i) === 'ARROW' ? ' ' + p.steps : ''}</li>`).join('');
+}
+const type = i => i === 0 ? 'START' : i === pts.length - 1 && pts.length > 1 ? 'FINISH' : pts[i].type;
+function select(i) { sel = i; if (i >= 0) { $('type').value = pts[i].type; if (pts[i].steps) $('steps').value = pts[i].steps; } draw(); }
+function applyType() { if (sel < 0) return; pts[sel].type = $('type').value; pts[sel].steps = pts[sel].type === 'ARROW' ? +$('steps').value || 1 : undefined; draw(); }
+
+cv.onclick = e => {
+  const x = e.offsetX / cv.width, y = e.offsetY / cv.height;
+  const hit = pts.findIndex(p => Math.hypot((p.x - x) * cv.width, (p.y - y) * cv.height) < 13);
+  if (hit >= 0) return select(hit);
+  pts.push({ x: +x.toFixed(4), y: +y.toFixed(4), type: 'NORMAL' }); select(-1);
+};
+$('list').onclick = e => { const li = e.target.closest('li'); if (li) select(+li.dataset.i); };
+$('type').onchange = $('steps').onchange = applyType;
+$('undo').onclick = () => { pts.pop(); select(-1); };
+$('clear').onclick = () => { pts = []; select(-1); };
+$('race').onchange = loadRace;
+$('file').onchange = e => { const f = e.target.files[0]; if (f) { path = 'assets/images/' + f.name; setImage(URL.createObjectURL(f)); } };
+$('save').onclick = () => {
+  const n = $('race').value, L = pts.length - 1;
+  const json = {
+    track_id: 'track_' + n, track_name: NAMES[n - 1], image_path: path, image_resolution: { width: img?.width || 0, height: img?.height || 0 },
+    total_spaces: pts.length, first_corner_index: +$('c1').value, second_corner_index: +$('c2').value, finish_space_index: L,
+    waypoints: pts.map((p, i) => ({ index: i, type: type(i), ...(type(i) === 'ARROW' ? { steps: p.steps } : {}), ...(type(i) === 'STAR' ? { points: 1 } : {}), norm_x: p.x, norm_y: p.y })),
+  };
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(json, null, 1)], { type: 'application/json' })); a.download = `track_${n}.json`; a.click();
+};
+loadRace();
+</script>
+</body>
+</html>

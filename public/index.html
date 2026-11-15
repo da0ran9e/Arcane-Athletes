@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0d1a">
+<title>Aetheria Grand Prix</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🏁%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/style.css">
+<script type="importmap">{"imports":{"three":"./vendor/three/build/three.module.min.js","three/addons/":"./vendor/three/examples/jsm/"}}</script>
+</head>
+<body>
+<canvas id="c"></canvas>
+
+<header id="top">
+  <b class="brand"><span>🏁</span><span class="name" data-i18n="app.title"></span></b>
+  <button id="roomChip" class="roomchip" data-act="copy" data-i18n-title="lobby.copy" hidden></button>
+  <div id="stage"></div>
+  <span class="grow"></span>
+  <span id="conn" hidden><i class="spin"></i><span data-i18n="hud.conn"></span></span>
+  <button class="icon" data-act="book" data-i18n-title="hud.book">📖</button>
+  <button class="icon" data-act="help" data-i18n-title="hud.help">?</button>
+  <button id="btnLog" class="icon" data-act="toggleLog" data-i18n-title="hud.log">📜</button>
+  <details id="settings">
+    <summary data-i18n-title="hud.settings">⚙</summary>
+    <div class="pop panel">
+      <label><span data-i18n="hud.lang"></span><select id="selLang"></select></label>
+      <label><span data-i18n="hud.quality"></span><select id="selQ"></select></label>
+      <label><span data-i18n="hud.sound"></span><button id="btnSound" class="tog" data-act="sound" role="switch"><i></i></button></label>
+      <button id="btnFull" data-act="fullscreen" data-i18n="hud.full"></button>
+    </div>
+  </details>
+</header>
+<div id="timer" hidden><i></i></div>
+
+<main id="home" class="screen" hidden>
+  <div class="panel hero">
+    <div class="crest">🏁</div>
+    <h1 data-i18n="app.title"></h1>
+    <p class="sub" data-i18n="app.subtitle"></p>
+    <div id="langs" class="seg"></div>
+    <label class="field"><span data-i18n="home.name"></span><input id="inName" maxlength="16" autocomplete="off" data-i18n-ph="home.namePh"></label>
+    <button id="btnCreate" class="primary big" data-i18n="home.create"></button>
+    <div class="or"><span data-i18n="home.or"></span></div>
+    <div class="joinrow">
+      <input id="inCode" maxlength="4" autocomplete="off" autocapitalize="characters" data-i18n-ph="home.code">
+      <button id="btnJoin" data-i18n="home.join"></button>
+    </div>
+    <ol class="how">
+      <li data-i18n="home.how1"></li>
+      <li data-i18n="home.how2"></li>
+      <li data-i18n="home.how3"></li>
+    </ol>
+  </div>
+</main>
+
+<main id="lobby" class="screen" hidden><div class="panel" id="lobbyBox"></div></main>
+
+<div id="game" hidden>
+  <aside id="players"></aside>
+  <aside id="log">
+    <header><b data-i18n="hud.log"></b><button class="icon sm" data-act="toggleLog">✕</button></header>
+    <div id="logBody"></div>
+  </aside>
+  <div id="tracker" class="panel" hidden>
+    <div class="line"><div id="trkMarks"></div><div id="trkTokens"></div></div>
+    <div id="trkPrize"></div>
+  </div>
+  <div id="banner"></div>
+  <div id="overlay"></div>
+  <div id="status"></div>
+  <div id="prompt" class="panel" hidden></div>
+  <div id="camctl">
+    <button class="icon" data-act="camReset" data-i18n-title="hud.camReset">⟲</button>
+    <button class="icon" data-act="camTop" data-i18n-title="hud.camTop">▦</button>
+  </div>
+</div>
+
+<div id="modal" hidden></div>
+<div id="fx"></div>
+<div id="toast" hidden></div>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

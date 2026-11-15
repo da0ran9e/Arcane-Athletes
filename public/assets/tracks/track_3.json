@@ -1,0 +1,213 @@
+{
+ "track_id": "track_3",
+ "track_name": "Obsidian Spiral",
+ "image_path": "assets/images/07245029d251.png",
+ "image_resolution": {
+  "width": 3147,
+  "height": 962
+ },
+ "total_spaces": 31,
+ "first_corner_index": 12,
+ "second_corner_index": 15,
+ "finish_space_index": 30,
+ "podium": [
+  {
+   "rank": 1,
+   "norm_x": 0.0556,
+   "norm_y": 0.4655
+  },
+  {
+   "rank": 2,
+   "norm_x": 0.0556,
+   "norm_y": 0.6218
+  }
+ ],
+ "waypoints": [
+  {
+   "index": 0,
+   "type": "START",
+   "norm_x": 0.1167,
+   "norm_y": 0.1782
+  },
+  {
+   "index": 1,
+   "type": "NORMAL",
+   "norm_x": 0.2452,
+   "norm_y": 0.1782
+  },
+  {
+   "index": 2,
+   "type": "NORMAL",
+   "norm_x": 0.3088,
+   "norm_y": 0.1782
+  },
+  {
+   "index": 3,
+   "type": "NORMAL",
+   "norm_x": 0.3725,
+   "norm_y": 0.1782
+  },
+  {
+   "index": 4,
+   "type": "NORMAL",
+   "norm_x": 0.4362,
+   "norm_y": 0.1782
+  },
+  {
+   "index": 5,
+   "type": "NORMAL",
+   "norm_x": 0.4998,
+   "norm_y": 0.1782
+  },
+  {
+   "index": 6,
+   "type": "NORMAL",
+   "norm_x": 0.5635,
+   "norm_y": 0.1782
+  },
+  {
+   "index": 7,
+   "type": "NORMAL",
+   "norm_x": 0.6272,
+   "norm_y": 0.1782
+  },
+  {
+   "index": 8,
+   "type": "NORMAL",
+   "norm_x": 0.6908,
+   "norm_y": 0.1782
+  },
+  {
+   "index": 9,
+   "type": "NORMAL",
+   "norm_x": 0.7545,
+   "norm_y": 0.1782
+  },
+  {
+   "index": 10,
+   "type": "NORMAL",
+   "norm_x": 0.8182,
+   "norm_y": 0.1782
+  },
+  {
+   "index": 11,
+   "type": "NORMAL",
+   "norm_x": 0.8818,
+   "norm_y": 0.1782
+  },
+  {
+   "index": 12,
+   "type": "NORMAL",
+   "norm_x": 0.9456,
+   "norm_y": 0.1782
+  },
+  {
+   "index": 13,
+   "type": "NORMAL",
+   "norm_x": 0.9456,
+   "norm_y": 0.3891
+  },
+  {
+   "index": 14,
+   "type": "NORMAL",
+   "norm_x": 0.9456,
+   "norm_y": 0.6036
+  },
+  {
+   "index": 15,
+   "type": "NORMAL",
+   "norm_x": 0.946,
+   "norm_y": 0.8218
+  },
+  {
+   "index": 16,
+   "type": "NORMAL",
+   "norm_x": 0.8824,
+   "norm_y": 0.8218
+  },
+  {
+   "index": 17,
+   "type": "NORMAL",
+   "norm_x": 0.8189,
+   "norm_y": 0.8218
+  },
+  {
+   "index": 18,
+   "type": "NORMAL",
+   "norm_x": 0.7553,
+   "norm_y": 0.8218
+  },
+  {
+   "index": 19,
+   "type": "NORMAL",
+   "norm_x": 0.6918,
+   "norm_y": 0.8218
+  },
+  {
+   "index": 20,
+   "type": "NORMAL",
+   "norm_x": 0.6282,
+   "norm_y": 0.8218
+  },
+  {
+   "index": 21,
+   "type": "NORMAL",
+   "norm_x": 0.5647,
+   "norm_y": 0.8218
+  },
+  {
+   "index": 22,
+   "type": "NORMAL",
+   "norm_x": 0.5011,
+   "norm_y": 0.8218
+  },
+  {
+   "index": 23,
+   "type": "NORMAL",
+   "norm_x": 0.4376,
+   "norm_y": 0.8218
+  },
+  {
+   "index": 24,
+   "type": "NORMAL",
+   "norm_x": 0.374,
+   "norm_y": 0.8218
+  },
+  {
+   "index": 25,
+   "type": "NORMAL",
+   "norm_x": 0.3104,
+   "norm_y": 0.8218
+  },
+  {
+   "index": 26,
+   "type": "NORMAL",
+   "norm_x": 0.2469,
+   "norm_y": 0.8218
+  },
+  {
+   "index": 27,
+   "type": "NORMAL",
+   "norm_x": 0.1833,
+   "norm_y": 0.8218
+  },
+  {
+   "index": 28,
+   "type": "NORMAL",
+   "norm_x": 0.1198,
+   "norm_y": 0.8218
+  },
+  {
+   "index": 29,
+   "type": "NORMAL",
+   "norm_x": 0.0562,
+   "norm_y": 0.8218
+  },
+  {
+   "index": 30,
+   "type": "FINISH",
+   "norm_x": 0.0556,
+   "norm_y": 0.5455
+  }
+ ]
+}

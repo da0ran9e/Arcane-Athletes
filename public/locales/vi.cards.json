@@ -1,0 +1,436 @@
+{
+ "cards": {
+  "R-19": {
+   "name": "Ấu Trùng Tinh Quái",
+   "cat": "Quái Thú",
+   "desc": "Khi bất kỳ đối thủ nào đổ ra số 1 cho Di chuyển Chính, đối thủ đó bị mất lượt di chuyển đó, còn Ấu Trùng được tiến 1 ô."
+  },
+  "R-14": {
+   "name": "Chất Nhầy Cản Bước",
+   "cat": "Khống Chế",
+   "desc": "Tất cả các đấu thủ khác đều bị trừ 1 vào giá trị Di chuyển Chính."
+  },
+  "R-17": {
+   "name": "Linh Thỏ Tốc Độ",
+   "cat": "Thần Tốc",
+   "desc": "Được cộng 2 vào Di chuyển Chính. Tuy nhiên, nếu bắt đầu lượt khi đang một mình dẫn đầu (đứng đầu không chung ô với ai), phải bỏ qua lượt di chuyển chính."
+  },
+  "R-11": {
+   "name": "Học Giả Tiên Tri",
+   "cat": "Tiên Tri",
+   "desc": "Trước khi đổ xúc xắc Di chuyển Chính, tuyên bố đoán trước một con số cụ thể (1-6). Nếu đổ trúng chính xác số đó, nhận thêm 1 lượt đi hoàn chỉnh ngay sau đó."
+  },
+  "R-30": {
+   "name": "Cá Đuôi Bám",
+   "cat": "Ký Sinh",
+   "desc": "Khi bất kỳ đấu thủ nào đang đứng chung ô bắt đầu bước đi, nhân vật này có thể chọn bám theo và di chuyển cùng số ô với họ (giải quyết thứ tự cán đích sau người kia)."
+  },
+  "R-34": {
+   "name": "Cơ Hội Bứt Tốc",
+   "cat": "Nhanh Nhẹn",
+   "desc": "Bất cứ khi nào có năng lực của bất kỳ đấu thủ nào trên bàn cờ được kích hoạt, nhân vật này ngay lập tức được nhích tiến 1 ô."
+  },
+  "R-01": {
+   "name": "Nhà Giả Kim",
+   "cat": "Biến Đổi",
+   "desc": "Khi đổ ra số 1 hoặc 2 cho Di chuyển Chính, có thể chọn di chuyển 4 ô thay vì số trên xúc xắc."
+  },
+  "R-36": {
+   "name": "Kẻ Phá Đám",
+   "cat": "Xâm Nhập",
+   "desc": "Ở đầu lượt của mình, có thể Dịch chuyển (Warp) tới bất kỳ ô nào trên đường đua đang có đúng 2 đấu thủ cùng dừng lại."
+  },
+  "R-08": {
+   "name": "Nữ Hoàng Cổ Động",
+   "cat": "Hỗ Trợ",
+   "desc": "Đầu lượt của mình, có thể cho tất cả các đấu thủ đang ở vị trí chót bảng (Last place) tiến 2 ô. Nếu làm vậy, bản thân được tiến 1 ô."
+  },
+  "R-26": {
+   "name": "Bậc Thầy Ảo Ảnh",
+   "cat": "Ma Pháp",
+   "desc": "Có quyền đổ lại xúc xắc Di chuyển Chính tối đa 2 lần mỗi lượt (bắt buộc dùng kết quả cuối cùng)."
+  },
+  "R-37": {
+   "name": "Cặp Đôi Song Hùng",
+   "cat": "Bản Sao",
+   "desc": "Trước chặng đua, có thể chọn 1 đấu thủ đã từng chiến thắng ở một chặng đua trước đó để sở hữu toàn bộ năng lực của đấu thủ đó suốt chặng này."
+  },
+  "R-23": {
+   "name": "Ngôi Sao Cần Cù",
+   "cat": "Kiên Trì",
+   "desc": "Ở đầu lượt của mình, nếu đang đơn độc ở vị trí chót bảng (Last place), nhận ngay 1 chip thưởng 1 điểm."
+  },
+  "R-28": {
+   "name": "Chuyên Gia Quá Tải",
+   "cat": "Cơ Khí",
+   "desc": "Có thể chọn nhân đôi kết quả xúc xắc Di chuyển Chính. Nếu nhân đôi, sau khi hoàn thành toàn bộ bước di chuyển, nhân vật này sẽ Bị Ngã (Trip)."
+  },
+  "R-10": {
+   "name": "Kiếm Khách Khiêu Chiến",
+   "cat": "Chiến Binh",
+   "desc": "Bất cứ khi nào có đấu thủ đứng chung ô (kể cả trong lượt đối thủ), có thể hô QUYẾT ĐẤU! Hai bên cùng đổ 1 viên d6, ai cao hơn được tiến 2 ô (Kiếm Khách thắng nếu hòa). Có thể quyết đấu nhiều lần trong 1 lượt."
+  },
+  "R-05": {
+   "name": "Kỵ Sĩ Nhân Mã",
+   "cat": "Chiến Binh",
+   "desc": "Khi di chuyển vượt qua (Pass) một đấu thủ khác, đấu thủ bị vượt mặt phải lùi lại 2 ô (không thể lùi quá vạch Xuất Phát)."
+  },
+  "R-33": {
+   "name": "Quan Tòa Nguyên Tắc",
+   "cat": "Luật Lệ",
+   "desc": "Mọi đấu thủ khác chỉ có thể cán đích bằng số bước di chuyển CHÍNH XÁC vừa đủ. Nếu đổ dư số bước vượt quá vạch đích, đấu thủ đó không được di chuyển."
+  },
+  "R-07": {
+   "name": "Bẫy Trơn Trượt",
+   "cat": "Cạm Bẫy",
+   "desc": "Bất kỳ đấu thủ nào di chuyển vượt qua (Pass) nhân vật này đều sẽ Bị Ngã (Trip) ngay sau khi họ kết thúc bước di chuyển đó."
+  },
+  "R-02": {
+   "name": "Khinh Khí Hạm",
+   "cat": "Cơ Khí",
+   "desc": "Nếu bắt đầu lượt ở trước khúc cua thứ 2 của đường đua, nhận +3 vào Di chuyển Chính. Nếu ở tại hoặc sau khúc cua thứ 2, bị -1 vào Di chuyển Chính."
+  },
+  "R-22": {
+   "name": "Kẻ Bám Gót",
+   "cat": "Tùy Tùng",
+   "desc": "Khi bất kỳ đối thủ nào đổ ra số 6 cho Di chuyển Chính, Kẻ Bám Gót ngay lập tức được tiến 2 ô TRƯỚC KHI đối thủ đó thực hiện di chuyển."
+  },
+  "R-32": {
+   "name": "Kẻ Thao Túng Thời Khắc",
+   "cat": "Thời Gian",
+   "desc": "Bất cứ khi nào có ai đổ ra số 1 cho Di chuyển Chính, nhân vật này ngay lập tức cướp quyền đi lượt tiếp theo trong vòng đấu."
+  },
+  "R-24": {
+   "name": "Hàm Thôn Phệ",
+   "cat": "Hủy Diệt",
+   "desc": "Khi dừng lại trên ô đang có đúng 1 đấu thủ khác, đấu thủ đó lập tức bị LOẠI (Eliminated) khỏi chặng đua."
+  },
+  "R-18": {
+   "name": "Phù Thủy Thao Túng",
+   "cat": "Tâm Linh",
+   "desc": "Đầu lượt của mình, có thể Dịch chuyển (Warp) một đấu thủ bất kỳ trên đường đua về đứng chung ô với mình."
+  },
+  "R-31": {
+   "name": "Tâm Hồn Tri Kỷ",
+   "cat": "Cảm Xúc",
+   "desc": "Bất cứ khi nào có bất kỳ ai dừng lại trên một ô có đúng 1 đấu thủ khác (tạo thành ô đôi), nhân vật này lập tức được tiến 2 ô."
+  },
+  "R-04": {
+   "name": "Phù Thủy Chân Cốt",
+   "cat": "Nguyền Rủa",
+   "desc": "Làm Bị Ngã (Trip) bất kỳ đấu thủ nào dừng lại trên ô của mình, hoặc khi nhân vật này dừng lại trên ô của họ."
+  },
+  "R-03": {
+   "name": "Bậc Thầy Huấn Luyện",
+   "cat": "Hỗ Trợ",
+   "desc": "Mọi đấu thủ đứng chung ô với nhân vật này (bao gồm cả bản thân) đều nhận được +1 vào Di chuyển Chính."
+  },
+  "R-12": {
+   "name": "Kẻ Khích Bác",
+   "cat": "Khiêu Khích",
+   "desc": "Khi một đối thủ kết thúc lượt đi của họ mà chỉ cách vị trí họ bắt đầu lượt tối đa 1 ô (tức di chuyển được 0 hoặc 1 ô), nhân vật này ngay lập tức được tiến 2 ô."
+  },
+  "R-15": {
+   "name": "Người Khổng Lồ Hộ Thân",
+   "cat": "Hộ Vệ",
+   "desc": "Không ai có thể đứng chung ô với nhân vật này (ngoại trừ ô Xuất Phát). Bất kỳ ai định dừng lại ở ô này đều lập tức bị đặt lùi về ô liền kề phía sau."
+  },
+  "R-20": {
+   "name": "Đôi Chân Thần Tốc",
+   "cat": "Thần Tốc",
+   "desc": "Có thể chọn KHÔNG đổ xúc xắc Di chuyển Chính để di chuyển cố định đúng 5 ô."
+  },
+  "R-27": {
+   "name": "Đầu Tàu Diễu Hành",
+   "cat": "Lễ Hội",
+   "desc": "Ở đầu lượt của mình, tất cả các đấu thủ khác bị kéo tiến 1 ô về phía nhân vật này. Mỗi đấu thủ đang đứng chung ô mang lại cho nhân vật này +1 vào Di chuyển Chính."
+  },
+  "R-29": {
+   "name": "Kẻ Gánh Trọng Tội",
+   "cat": "Huyền Bí",
+   "desc": "Bắt đầu chặng đua với 4 chip điểm thưởng. Bất cứ khi nào đổ ra số 6 cho Di chuyển Chính, thay vì di chuyển, nhân vật này bị Dịch chuyển (Warp) về ô Xuất Phát và mất 1 chip điểm."
+  },
+  "R-25": {
+   "name": "Cóc Nhảy Rào",
+   "cat": "Quái Thú",
+   "desc": "Khi di chuyển, nhân vật này nhảy vượt qua các ô đang có người đứng mà không tính các ô đó vào số bước đi."
+  },
+  "R-06": {
+   "name": "Miêu Tặc Biến Hình",
+   "cat": "Thích Khách",
+   "desc": "Sở hữu liên tục toàn bộ năng lực của đấu thủ hiện đang dẫn đầu (1st place) trên đường đua. Nếu có nhiều đấu thủ hòa nhau ở vị trí dẫn đầu, người chơi tự chọn một người để sao chép."
+  },
+  "R-16": {
+   "name": "Bậc Thầy Hoán Đổi",
+   "cat": "Không Gian",
+   "desc": "Có thể chọn KHÔNG đổ xúc xắc Di chuyển Chính để Dịch chuyển (Warp) tức thời hoán đổi vị trí của mình với bất kỳ đấu thủ nào trên đường đua."
+  },
+  "R-13": {
+   "name": "Quả Cầu Bất Định",
+   "cat": "Kỳ Bí",
+   "desc": "Trước khi chặng đua bắt đầu, rút ngửa 3 thẻ nhân vật ngẫu nhiên chưa ai chọn từ cọc bài và chọn lấy 1 nhân vật để sở hữu toàn bộ năng lực của nhân vật đó suốt chặng đua."
+  },
+  "R-21": {
+   "name": "Quân Sư Chiến Thuật",
+   "cat": "Chiến Thuật",
+   "desc": "Ở đầu lượt đầu tiên của mình, dự đoán 1 đấu thủ sẽ chiến thắng chặng đua. Nếu đấu thủ đó cán đích hạng 1, chặng đua kết thúc ngay lập tức và Quân Sư tự động đoạt hạng nhì (2nd place)."
+  },
+  "R-09": {
+   "name": "Lái Buôn Vận Mệnh",
+   "cat": "Thao Túng",
+   "desc": "Mọi người chơi đều có quyền đổ lại xúc xắc Di chuyển Chính 1 lần mỗi lượt. Bất cứ khi nào đối thủ sử dụng quyền đổ lại này, Lái Buôn ngay lập tức tiến 1 ô TRƯỚC KHI đối thủ đó di chuyển."
+  },
+  "E-01": {
+   "name": "Tia Chớp Tự Do",
+   "cat": "Tự Do",
+   "desc": "Khi di chuyển vượt qua (Pass) một hoặc nhiều đấu thủ trong Di chuyển Chính, nhận ngay 1 chip 1 điểm."
+  },
+  "E-02": {
+   "name": "Hư Vô Vực Thẳm",
+   "cat": "Hư Không",
+   "desc": "Tất cả các đấu thủ đứng phía trước nhân vật này đều bị trừ 1 vào Di chuyển Chính và bị mất sạch toàn bộ năng lực."
+  },
+  "E-03": {
+   "name": "Kỵ Sĩ Thú Cưỡi",
+   "cat": "Chiến Binh",
+   "desc": "Bắt đầu chặng đua trên lưng thú cưỡi (được +2 vào Di chuyển Chính). Khi có ai vượt qua mặt, nhân vật này bị mất thú cưỡi."
+  },
+  "E-04": {
+   "name": "Vương Quyền Quật Ngã",
+   "cat": "Khống Chế",
+   "desc": "Ở đầu lượt của mình, có thể chọn làm Bị Ngã (Trip) đấu thủ hiện đang dẫn đầu cuộc đua."
+  },
+  "E-05": {
+   "name": "Kẻ Chậm Chạp",
+   "cat": "Chậm Rãi",
+   "desc": "Bị trừ 1 vào Di chuyển Chính. Khi chặng đua kết thúc, nếu nhân vật này vẫn chưa vượt qua khúc cua thứ 2 của đường đua, nhận ngay 3 điểm thưởng!"
+  },
+  "E-06": {
+   "name": "Người Bảo Hộ",
+   "cat": "Bảo Hộ",
+   "desc": "Đấu thủ của người chơi ngồi bên trái mình được +2 vào Di chuyển Chính. Nếu đấu thủ đó về Nhất chặng đua, Người Bảo Hộ nhận 3 điểm thưởng."
+  },
+  "E-07": {
+   "name": "Vòi Rồng Áp Lực",
+   "cat": "Nguyên Tố",
+   "desc": "Ở cuối lượt của mình, đổ 1 viên d6 và làm Bị Ngã tất cả các đấu thủ nằm trong phạm vi số ô đó ở phía trước mặt."
+  },
+  "E-08": {
+   "name": "Cóc Phi Thân",
+   "cat": "Nhanh Nhẹn",
+   "desc": "Khi kết thúc lượt đi của mình ở vị trí ngay liền kề phía sau (1 ô) một đấu thủ khác, nhân vật này lập tức nhận thêm 1 lượt đi hoàn chỉnh."
+  },
+  "E-09": {
+   "name": "Cái Đuôi Vết Lăn",
+   "cat": "Ám Muội",
+   "desc": "Đầu lượt của mình, có thể Dịch chuyển (Warp) tức thời tới ô ngay liền kề phía sau đấu thủ đứng gần nhất trước mặt."
+  },
+  "E-10": {
+   "name": "Ngôi Sao Kiêu Kỳ",
+   "cat": "Kiêu Hãnh",
+   "desc": "Nếu đang ở vị trí chót bảng (Last place) vào đầu lượt của mình, nhân vật này lập tức Dịch chuyển (Warp) hoán đổi vị trí với đấu thủ đang dẫn đầu cuộc đua."
+  },
+  "E-11": {
+   "name": "Đại Sư Lục Xúc",
+   "cat": "Xúc Xắc",
+   "desc": "Đổ toàn bộ 6 viên xúc xắc cho Di chuyển Chính và chọn lấy một số bất kỳ xuất hiện từ 2 lần trở lên (nếu cả 6 viên đều ra 6 số khác nhau, không di chuyển)."
+  },
+  "E-12": {
+   "name": "Kẻ Liều Lĩnh",
+   "cat": "Liều Lĩnh",
+   "desc": "Sau khi đổ Di chuyển Chính, có thể tiếp tục đổ thêm nhiều lần và cộng dồn số bước đi. Tuy nhiên, nếu đổ ra số bằng hoặc thấp hơn lần đổ trước đó, nhân vật này đứng im tại chỗ (0 ô)!"
+  },
+  "E-13": {
+   "name": "Đấu Thủ Toàn Năng",
+   "cat": "Huyền Thoại",
+   "desc": "Khi đổ Di chuyển Chính, kích hoạt hiệu ứng theo mặt xúc xắc: 1=Đi 7 ô; 2=Kéo người chót bảng về ô mình; 3=Dịch chuyển tới 1 người và làm ngã họ; 4=Đi 4 ô và đi thêm lượt; 5=Đẩy người dẫn đầu lùi 5 ô; 6=Đi 6 ô và làm ngã mọi người đi qua."
+  },
+  "E-14": {
+   "name": "Khối Sinh Khối Tế Bào",
+   "cat": "Ký Sinh",
+   "desc": "Khi đổ ra số 1 hoặc 2 cho Di chuyển Chính, rút thêm 1 thẻ đấu thủ mới từ cọc bài và sở hữu vĩnh viễn toàn bộ năng lực của thẻ đó suốt chặng đua còn lại."
+  },
+  "E-15": {
+   "name": "Kẻ Đuổi Bắt",
+   "cat": "Báo Thù",
+   "desc": "Được cộng thêm số ô Di chuyển Chính đúng bằng số lượng đấu thủ hiện đang chạy phía trước mặt mình."
+  },
+  "E-16": {
+   "name": "Bản Sao Hắc Ám",
+   "cat": "Ám Muội",
+   "desc": "Bất kỳ đấu thủ nào cán đích Hạng 1 sẽ bị LOẠI thay vì chiến thắng. Bản Sao Hắc Ám nhận lấy năng lực của đấu thủ đó."
+  },
+  "E-17": {
+   "name": "Kẻ Phá Hoại",
+   "cat": "Cạm Bẫy",
+   "desc": "Bất cứ khi nào có đấu thủ khác đổ ra số 3 cho Di chuyển Chính, đấu thủ đó bắt buộc phải di chuyển lùi lại thay vì tiến lên."
+  },
+  "E-18": {
+   "name": "Cánh Bay Sa Ngã",
+   "cat": "Thần Thoại",
+   "desc": "Được cộng 3 vào Di chuyển Chính. Tuy nhiên, nếu đổ ra số 6 cho Di chuyển Chính, nhân vật này bị LOẠI (Eliminated) khỏi chặng đua."
+  },
+  "E-19": {
+   "name": "Nữ Hoàng Choáng Váng",
+   "cat": "Khống Chế",
+   "desc": "Mọi đấu thủ khác đứng trong phạm vi 1 ô quanh nhân vật này chỉ được tính kết quả xúc xắc là 1 cho mọi lần đổ."
+  },
+  "E-20": {
+   "name": "Thủy Quái Xúc Tu",
+   "cat": "Quái Thú",
+   "desc": "Một lần duy nhất trong cả chặng đua, ở đầu lượt của mình, có thể Dịch chuyển (Warp) toàn bộ đấu thủ khác trên đường đua về ô của mình và làm Bị Ngã tất cả bọn họ!"
+  },
+  "E-21": {
+   "name": "Kẻ Phá Tiệc",
+   "cat": "Triệt Tiêu",
+   "desc": "Mọi lần đổ ra số 6 trên toàn bộ bàn chơi đều bắt buộc phải đổ lại. Bất cứ khi nào có số 6 bị đổ lại, nhân vật này được tiến 1 ô."
+  },
+  "E-22": {
+   "name": "Chuột Chũi Độn Thổ",
+   "cat": "Quái Thú",
+   "desc": "Nếu xung quanh phạm vi 1 ô không có bất kỳ ai, có thể chọn KHÔNG đổ xúc xắc mà di chuyển cố định đúng 6 ô."
+  },
+  "E-23": {
+   "name": "Băng Điểu Lướt Băng",
+   "cat": "Băng Tuyết",
+   "desc": "Bất cứ khi nào bị ai vượt qua mặt, nhân vật này Bị Ngã. Khi đang Bị Ngã, nhân vật này được NHÂN ĐÔI kết quả đổ xúc xắc Di chuyển Chính (thay vì bỏ lượt) và hồi phục sau lượt đi."
+  },
+  "E-24": {
+   "name": "Kẻ Bỏ Cuộc Phá Đám",
+   "cat": "Hỗn Loạn",
+   "desc": "Nếu ở đầu lượt của mình, tất cả các đối thủ khác đều đang dẫn trước từ 5 ô trở lên, chặng đua bị HỦY NGAY LẬP TỨC và Kẻ Phá Đám nhận 3 điểm!"
+  },
+  "E-25": {
+   "name": "Nhà Tài Phiệt Đất",
+   "cat": "Kinh Tế",
+   "desc": "Bất kỳ đấu thủ nào dừng chân tại ô của Nhà Tài Phiệt đều phải nộp phạt 1 điểm. Nếu không có điểm để nộp, họ sẽ Bị Ngã (Trip)."
+  },
+  "E-26": {
+   "name": "Linh Hồn Tri Kỷ",
+   "cat": "Liên Kết",
+   "desc": "Trước chặng đua, chọn 1 đối thủ. Khi bắt đầu lượt trong phạm vi 5 ô cách họ, Dịch chuyển (Warp) thẳng đến ô của họ."
+  },
+  "E-27": {
+   "name": "Cuồng Phong Bão Táp",
+   "cat": "Bóng Đêm",
+   "desc": "Được cộng thêm số ô Di chuyển Chính bằng tổng số điểm người chơi đang có. Tuy nhiên, nếu dẫn đầu cách biệt 4 ô trở lên ở đầu lượt, bị LOẠI ngay lập tức."
+  },
+  "E-28": {
+   "name": "Cẩu Vụng Về",
+   "cat": "Hỗn Loạn",
+   "desc": "Khi đang ở vị trí chót bảng, nhân 3 kết quả đổ xúc xắc Di chuyển Chính. Khi KHÔNG ở vị trí chót bảng, nhân vật này di chuyển lùi lại."
+  },
+  "E-29": {
+   "name": "Thợ Tráo Thẻ",
+   "cat": "Gian Xảo",
+   "desc": "Khi kết thúc lượt mà đứng cách đối thủ tối đa 1 ô, có thể tráo đổi quyền điều khiển thẻ nhân vật với đối thủ đó!"
+  },
+  "E-30": {
+   "name": "Con Cưng Thừa Kế",
+   "cat": "Đặc Quyền",
+   "desc": "Bắt đầu chặng đua tại khúc cua đầu tiên của đường đua thay vì vạch Xuất Phát."
+  },
+  "E-31": {
+   "name": "Nhà Phê Bình Khắt Khe",
+   "cat": "Khống Chế",
+   "desc": "Mỗi lượt 1 lần, có thể bắt buộc một đấu thủ đang chạy phía trước mình phải đổ lại xúc xắc Di chuyển Chính."
+  },
+  "E-32": {
+   "name": "Kẻ Báo Thù Định Mệnh",
+   "cat": "Báo Thù",
+   "desc": "Khi một đối thủ đổ xúc xắc Di chuyển Chính, Kẻ Báo Thù được quyền đổ 1 viên d6 theo. Nếu ra cùng số, Kẻ Báo Thù được di chuyển đúng bằng số đó!"
+  },
+  "E-33": {
+   "name": "Đấu Thủ Hồi Sinh",
+   "cat": "Vĩnh Hằng",
+   "desc": "Sau khi tham gia chặng đua đầu tiên, đấu thủ này KHÔNG bị loại bỏ mà sẽ tham gia như một đấu thủ phụ cộng thêm trong toàn bộ các chặng đua còn lại!"
+  },
+  "E-34": {
+   "name": "Ma Sói Hóa Thân",
+   "cat": "Hóa Hình",
+   "desc": "Khi đổ ra số 1 hoặc 2 cho Di chuyển Chính, hóa thân thành Quái Thú Thôn Phệ, loại bỏ ngay lập tức bất kỳ đấu thủ nào bị nó vượt qua!"
+  },
+  "E-35": {
+   "name": "Báo Gian Lận",
+   "cat": "Gian Lận",
+   "desc": "Thay vì đổ xúc xắc Di chuyển Chính, bí mật đặt viên xúc xắc vào mặt số tùy chọn. Nếu người chơi ngồi bên phải đoán trúng số đó, nhân vật này đứng im."
+  },
+  "E-36": {
+   "name": "Kẻ Đóng Thế Kép",
+   "cat": "Bản Sao",
+   "desc": "Trước chặng đua, chọn sao chép toàn bộ năng lực của một đấu thủ đối phương có mặt trong chặng đua đó."
+  }
+ },
+ "twists": {
+  "T-01": {
+   "name": "Tràn Phòng Thí Nghiệm Biến Dị",
+   "desc": "Đặt Quái Thú Thôn Phệ tại ô Start. Đổ xúc xắc d6 cho nó di chuyển sau mỗi lượt của từng người chơi. Bất kỳ đấu thủ nào bị nó vượt qua đều bị LOẠI khỏi chặng đua ngay lập tức!"
+  },
+  "T-02": {
+   "name": "Khán Giả Nổi Loạn",
+   "desc": "Rút ngay 2 thẻ Biến Cố tiếp theo từ cọc bài và áp dụng lần lượt cả hai hiệu ứng theo thứ tự."
+  },
+  "T-03": {
+   "name": "Bọ Chặn Đường Vạch Đích",
+   "desc": "Bất cứ khi nào có đấu thủ dừng lại ở 2 ô liền trước vạch Đích, họ lập tức bị đẩy lùi về sau 5 ô."
+  },
+  "T-04": {
+   "name": "Băng Chuyền Đảo Chiều",
+   "desc": "Toàn bộ hướng chạy của chặng đua bị đảo ngược: vạch Xuất Phát trở thành Đích và vạch Đích trở thành Xuất Phát!"
+  },
+  "T-05": {
+   "name": "Đũa Phép Hỗn Loạn",
+   "desc": "Sau lượt của mỗi người chơi, người đó đổ 1 viên xúc xắc. Bỏ qua số lượng người chơi tương ứng theo thứ tự lượt tiếp theo."
+  },
+  "T-06": {
+   "name": "Thuyết Thế Giới Gương",
+   "desc": "Dịch chuyển tất cả các đấu thủ tới ô liền sau ô Start. Mọi người chơi đều nhận +3 vào Di chuyển Chính suốt chặng đua."
+  },
+  "T-07": {
+   "name": "Cấm Chạy Quanh Hồ Tiên Tri",
+   "desc": "Bất kỳ đấu thủ nào di chuyển từ 6 ô trở lên trong Di chuyển Chính sẽ bị LOẠI khỏi cuộc đua ngay lập tức."
+  },
+  "T-08": {
+   "name": "Vỡ Túi Quà Trời Ban",
+   "desc": "Đặt 1 chip điểm lên mọi ô trống sau khúc cua đầu tiên của đường đua. Bất kỳ ai dừng chân tại ô có chip sẽ thu thập chip đó."
+  },
+  "T-09": {
+   "name": "Quy Luật Ngẫu Nhiên Biến Mất",
+   "desc": "Tất cả người chơi đổ xúc xắc 1 lần duy nhất trước chặng: số đó sẽ là kết quả cố định cho mọi lần đổ của họ suốt chặng đua."
+  },
+  "T-10": {
+   "name": "Dẫm Trúng Quỷ Thời Gian",
+   "desc": "Đấu thủ kích hoạt lá này bị loại khỏi chặng đua hiện tại, nhưng được quyền tham gia chặng đua tiếp theo như một đấu thủ phụ cộng thêm!"
+  },
+  "T-11": {
+   "name": "Bữa Tiệc Giữa Đường",
+   "desc": "Đấu thủ đang ở vị trí chót bảng (Last place) ngay lập tức được thưởng bước tiến 7 ô."
+  },
+  "T-12": {
+   "name": "Trận Chung Kết Tay Đôi",
+   "desc": "Hai đấu thủ về Nhất và Nhì sẽ bước vào một chặng đua ngắn tay đôi từ khúc cua số 2 để tranh cúp chung cuộc!"
+  },
+  "T-13": {
+   "name": "Chợ Phiên Hoán Đổi",
+   "desc": "Tất cả người chơi cùng rút 1 thẻ đấu thủ mới từ cọc bài và có quyền chọn đổi lấy đấu thủ đang đua trên sân."
+  }
+ },
+ "tracks": {
+  "plains": {
+   "name": "Thảo Nguyên Ngọc",
+   "desc": "Đường đua cơ bản, góc cua rộng và ít bẫy."
+  },
+  "wildwood": {
+   "name": "Rừng Rậm Hoang Dã",
+   "desc": "Nhiều bẫy ngã và ô mũi tên bất ngờ."
+  },
+  "spiral": {
+   "name": "Vòng Xoáy Hắc Diệp",
+   "desc": "Xoắn ốc với nhiều đoạn thắt cổ chai."
+  },
+  "vortex": {
+   "name": "Xoắn Ốc Không Gian",
+   "desc": "Chặng chung kết với địa hình phức tạp."
+  }
+ }
+}
