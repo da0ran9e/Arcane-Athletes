@@ -2,3 +2,6 @@ node_modules/
 .DS_Store
 .env
 release/
+# downloaded by the launchers: portable Node.js (start-server.cmd) and cloudflared (run.mjs)
+runtime/
+bin/

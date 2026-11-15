@@ -40,9 +40,19 @@
 
 CHƯA thử được (không có điều kiện trên máy này):
 - [ ] Tunnel Cloudflare thật với token thật và ô Path trên dashboard.
-- [ ] `start.bat` và Task Scheduler trên Windows; `deploy/install-service.sh` trên Ubuntu (mới kiểm cú pháp).
+- [ ] Task Scheduler trên Windows; `deploy/install-service.sh` trên Ubuntu (mới kiểm cú pháp).
 - [ ] Phần nén nhạc bằng `ffmpeg` trong `optimize-assets`.
 - [ ] Người thật chơi nhiều máy; điện thoại thật (mới giả lập kích thước).
+
+## Đợt 5 (2026-11-15)
+- [x] `start-server.cmd` (thay `start.bat`): bấm đúp là chạy; thiếu Node.js 20.11+ thì tải bản portable vào `runtime\` (`deploy/get-node.ps1`, kiểm SHA-256).
+- [x] `run.mjs`: hỏi token khi chạy trong cửa sổ dòng lệnh (nhận cả dòng lệnh dán từ dashboard, báo token thiếu ký tự), lưu vào `.env`; `TUNNEL_TOKEN=off`; thiếu `cloudflared` thì tải bản chính thức vào `bin/` (Windows, Linux); báo `✔ Đã lên mạng`; cloudflared không chạy được thì game vẫn chạy. Thông báo bằng tiếng Việt.
+- [x] `.gitattributes`: `.cmd` / `.ps1` luôn xuống dòng kiểu Windows (CRLF). Thư mục dự án nối với https://github.com/da0ran9e/Arcane-Athletes.
+
+Đã thử (macOS): hỏi token (chuỗi rác, token thiếu ký tự, dán cả dòng lệnh), lưu `.env` (quyền 600), chạy lại không hỏi, `off`, chạy không có cửa sổ dòng lệnh thì không hỏi; tải cloudflared từ máy chủ giả (chuyển hướng, lỗi 404, file không phải chương trình); file không chạy được → game vẫn trả trang bình thường.
+CHƯA thử được:
+- [ ] `start-server.cmd` và `get-node.ps1` trên Windows thật (máy này không có Windows hay PowerShell).
+- [ ] Tải cloudflared thật từ GitHub rồi nối tunnel thật.
 
 ## Đã kiểm thử
 - `npm test`: 600 giải đấu ngẫu nhiên (3–6 người, mọi tuỳ chọn, trả lời ngẫu nhiên) chạy hết, không treo; mọi kỹ năng có `fire()` đều đã kích hoạt ít nhất 1 lần.

@@ -26,7 +26,7 @@ const filter = src => {
   if (fs.statSync(src).isFile() && redundant(src)) { skipped.push(rel(src)); return false; }
   return true;
 };
-for (const item of ['server', 'shared', 'public', 'docs', 'deploy', 'run.mjs', 'start.sh', 'start.bat', '.env.example', 'package.json', 'package-lock.json', 'README.md']) {
+for (const item of ['server', 'shared', 'public', 'docs', 'deploy', 'run.mjs', 'start.sh', 'start-server.cmd', '.env.example', 'package.json', 'package-lock.json', 'README.md']) {
   fs.cpSync(path.join(ROOT, item), path.join(DST, item), { recursive: true, filter });
 }
 // runtime dependencies: ws (server) and the two three.js files the page loads
@@ -47,4 +47,4 @@ const size = f => (fs.statSync(path.join(OUT, f)).size / 1048576).toFixed(1) + '
 if (skipped.length) console.log(`left out ${skipped.length} heavy original(s) that have a web version:`, skipped.slice(0, 6).join(', ') + (skipped.length > 6 ? ', ...' : ''));
 console.log('release folder: ' + rel(DST));
 for (const f of made) console.log(`archive: ${rel(path.join(OUT, f))} (${size(f)})`);
-console.log('On the server: unpack, put the Cloudflare Tunnel token in .env, run start.sh (Ubuntu) or start.bat (Windows).');
+console.log('On the server: unpack, then double-click start-server.cmd (Windows; it asks for the Cloudflare Tunnel token) or run ./start.sh (Ubuntu).');
