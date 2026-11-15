@@ -12,7 +12,7 @@ Thả file vào `public/assets/` đúng đường dẫn dưới đây. Server qu
 | `4a7954234c04.jpg` | 257×358 | — | mặt sau thẻ đấu thủ |
 | `ffcbbc9bd1d4.jpg` | 330×186 | — | mặt sau thẻ biến cố |
 
-Client hiển thị bằng CSS sprite (`background-size: cols*100% rows*100%`). Thiếu sheet → thẻ vẽ bằng CSS + emoji (dự phòng). Mô tả kỹ năng luôn lấy từ file ngôn ngữ nên đổi ngôn ngữ vẫn đúng dù ảnh thẻ in 1 thứ tiếng.
+Client hiển thị bằng CSS sprite (`background-size: cols*100% rows*100%`). Trên ô thẻ nhỏ (tuyển mộ, thư viện) chỉ hiện **62% phía trên** của lá bài để vừa màn hình; lá bài đầy đủ hiện trong khung chi tiết. Đổi tỉ lệ này bằng hằng số `ART_CROP` đầu file `public/js/ui.js` (đặt `1` để luôn hiện cả lá). Thiếu sheet → thẻ vẽ bằng CSS + emoji (dự phòng). Mô tả kỹ năng luôn lấy từ file ngôn ngữ nên đổi ngôn ngữ vẫn đúng dù ảnh thẻ in 1 thứ tiếng.
 
 ## 2. Bản đồ & standee — `public/assets/images/`
 
@@ -23,12 +23,12 @@ Client hiển thị bằng CSS sprite (`background-size: cols*100% rows*100%`). 
 | 3 Obsidian Spiral | `07245029d251.png` | `07245029d251.webp` |
 | 4 Celestial Vortex | `875e1c0e6ba2.png` | `875e1c0e6ba2.webp` |
 
-- Ảnh bản đồ được trải làm **mặt nền** dưới đường đua 3D. PNG 8000px quá nặng cho web → chạy `node tools/optimize-assets.mjs` (cần `npm i sharp`) để tạo `.webp` 2048px. Nếu chỉ có PNG gốc, client vẫn nạp nhưng sẽ chậm.
+- Ảnh bản đồ được trải lên bệ giữa cảnh 3D. **Bàn luôn có đúng tỉ lệ của file ảnh** (đọc từ chính file), nên 4 bản đồ có thể khác kích thước điểm ảnh. Ảnh rất lớn → chạy `node tools/optimize-assets.mjs` (cần `npm i sharp`) để tạo bản `.webp` cạnh dài ≤ 4096px; game chỉ dùng bản `.webp` khi nó không cũ hơn file gốc, nên sửa file gốc xong không cần xoá bản `.webp` cũ (nhưng nên chạy lại script).
 - 72 standee: PNG nền trong suốt, tên file theo cột cuối bảng thẻ trong file master (đã nằm trong `shared/cards.js`, trường `img`). Thiếu → standee vẽ canvas.
 
 ## 3. Âm thanh — `public/assets/audio/`
 
-Client tìm theo thứ tự `.ogg` → `.mp3` → `.wav` cùng tên gốc. Phân vai (sửa trong `public/js/audio.js`, bảng `MUSIC`):
+Client ưu tiên `.ogg` / `.mp3` cùng tên gốc nếu chúng không cũ hơn file `.wav`, ngược lại dùng `.wav`. Phân vai (sửa trong `public/js/audio.js`, bảng `MUSIC`):
 
 | Phase | Bản nhạc | File |
 |---|---|---|

@@ -9,8 +9,14 @@ const store = { get: k => { try { return localStorage.getItem(k); } catch { retu
 // URL of an asset file, versioned by its modification time so a replaced file is never served from a stale cache.
 // All URLs in the client are relative to the page, so the game works at any path (e.g. example.com/game/).
 const assetUrl = f => `assets/${f}?v=${S.assets.get(f) || 0}`;
+// Which file to load for an asset that may exist in several formats: the web-optimised copy wins only while it is at
+// least as new as the original, so replacing an original never leaves stale art or music on screen.
+function pickAsset(base, optimised, originals) {
+  const src = originals.map(e => base + e).find(f => S.assets.has(f));
+  return optimised.map(e => base + e).find(f => S.assets.has(f) && (!src || S.assets.get(f) >= S.assets.get(src))) || src || null;
+}
 const S = {
-  assetUrl, assets: new Map(), tracks: null,
+  assetUrl, pickAsset, assets: new Map(), tracks: null,
   room: null, you: -1, snap: null, names: [], online: false,
   prompt: null, sel: null, wait: [],                    // my pending decision, the option I selected, seats still deciding
   rolls: null, rollMsg: '', lastRoll: -1,               // roll-off in progress: seat -> die (0 = tied, must roll again)
@@ -247,8 +253,8 @@ function onKey(e) {
 (async () => {
   await setLang(initialLang());
   try { const m = await (await fetch('api/manifest', { cache: 'no-store' })).json(); S.assets = new Map(Array.isArray(m) ? m.map(f => [f, Date.now()]) : Object.entries(m)); } catch {}
-  initAudio(S.assets, assetUrl);
-  scene = new Scene($('c'), f => S.assets.has(f), assetUrl);
+  initAudio(pickAsset, assetUrl);
+  scene = new Scene($('c'), f => S.assets.has(f), assetUrl, pickAsset);
   await loadTracks();
   // a tap on a standee answers a "choose a runner" decision, otherwise it opens that runner's card
   scene.onPick = id => {

@@ -22,7 +22,9 @@ Runner  { id, code, owner, pos, trip, out, fin, abils[code], f{cờ theo chặng
 2. Mỗi chặng: (chặng ≥ 2 và bật biến cố) rút Biến Cố → mọi người chọn đấu thủ **đồng thời** → lật → kỹ năng chuẩn bị → vòng lượt → tính điểm.
 3. Thứ tự lượt: chặng 1 theo roll-off; chặng sau bắt đầu từ chủ của đấu thủ **bị loại đầu tiên**, nếu không ai bị loại thì **đứng sau cùng** (hoà → ngẫu nhiên). Nếu một người có nhiều đấu thủ, chúng đi liên tiếp.
 4. Lượt: đầu lượt → kiểm tra ngã → (hành động thay thế | đổ xúc xắc + đổ lại) → phản ứng theo mặt xúc xắc → cộng/trừ → di chuyển chính → vượt mặt → ô đặc biệt → dừng chung ô → cuối lượt.
-5. Kết thúc chặng: đấu thủ thứ 2 cán đích, hoặc chỉ còn ≤ 1 đấu thủ trên đường (người đó nhận hạng kế tiếp). ⚖ Giới hạn an toàn 300 lượt/chặng: hết giới hạn thì chặng dừng, chỉ ai đã cán đích mới có hạng.
+5. Kết thúc chặng: đấu thủ thứ 2 cán đích, hoặc chỉ còn ≤ 1 đấu thủ trên đường (người đó nhận hạng kế tiếp).
+   ⚖ **Luật bế tắc** (tôi thêm, cần xác nhận): nếu suốt 12 vòng (12 × số đấu thủ còn trên đường, tính theo lượt) không ai cán đích, không ai bị loại và không đấu thủ nào đi xa hơn kỷ lục của chính nó trong chặng, trọng tài dừng chặng. Hạng đã có được giữ; đấu thủ **đứng trước rõ ràng** (không đồng hạng) nhận hạng kế tiếp, lặp lại cho hạng 2; đồng vị trí thì không ai nhận. Giới hạn cứng 300 lượt/chặng xử lý y như vậy.
+   Lý do: một số tổ hợp không bao giờ kết thúc — ví dụ biến cố T-09 (xúc xắc cố định) + cặp ô nối nhau ở chặng 4 (đứng ô 4, luôn đổ 2 → tới 6 → bị đưa về 4), hoặc Vương Quyền Quật Ngã và Miêu Tặc quật ngã nhau mãi. Trước đây ván như vậy treo tới 300 lượt (15–20 phút).
 6. Điểm: Vàng 3/4/4/5, Bạc 1/2/2/3. Hoà điểm chung cuộc → cùng thắng.
 
 ## 3. Quy tắc di chuyển (hàm `move`)

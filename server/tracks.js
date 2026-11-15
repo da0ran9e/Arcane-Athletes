@@ -7,7 +7,7 @@ import { TRACKS, fromJson } from '../shared/tracks.js';
 const ASSETS = path.resolve(import.meta.dirname, '../public/assets');
 
 // Width and height of a PNG, WebP or JPEG file, read from its header; null if unknown.
-function imageSize(file) {
+export function imageSize(file) {
   let fd = null;
   try {
     fd = fs.openSync(file, 'r');

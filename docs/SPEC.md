@@ -15,7 +15,7 @@
 
 | Thành phần | Lựa chọn | Lý do |
 |---|---|---|
-| Server | Node.js ≥ 20, `http` thuần + thư viện `ws` | 1 dependency, chạy giống nhau trên Ubuntu/Windows |
+| Server | Node.js ≥ 20.11, `http` thuần + thư viện `ws` | 1 dependency, chạy giống nhau trên Ubuntu/Windows |
 | Client 3D | Three.js (ES module, phục vụ từ `node_modules`, **không cần build**) | Không bundler → sửa là chạy |
 | UI | HTML/CSS thuần phủ lên canvas 3D | Nhẹ, dễ dịch |
 | Logic game | `shared/engine.js` dùng `async/await`, chạy **trên server** (authoritative) | Chống gian lận, client chỉ hiển thị |
@@ -24,7 +24,8 @@
 ## 3. Cấu trúc thư mục
 
 ```
-server/index.js      HTTP tĩnh + WebSocket + /api/manifest
+run.mjs              Trình khởi chạy: đọc .env, bật server + cloudflared (xem DEPLOY.md)
+server/index.js      HTTP tĩnh + WebSocket + /api/manifest + /api/tracks; hỗ trợ BASE_PATH (vd /game)
 server/room.js       Phòng chơi, ghế, bot, định tuyến prompt, reconnect
 shared/cards.js      Dữ liệu 72 thẻ + 13 biến cố (sinh từ file master)
 shared/tracks.js     4 đường đua: loại ô, khúc cua, sinh toạ độ 3D
@@ -43,7 +44,11 @@ tools/gen-cards.mjs  Sinh shared/cards.js + vi.cards.json từ file master
 tools/gen-placeholders.mjs  Sinh asset giả đúng tên file thật (cần Chrome)
 server/tracks.js     Nạp assets/tracks/track_N.json
 public/track_waypoint_editor.html  Công cụ bấm toạ độ ô trên ảnh bản đồ
-tools/optimize-assets.mjs  Thu nhỏ bản đồ 8000px, nén âm thanh (tuỳ chọn)
+tools/optimize-assets.mjs  Tạo bản .webp cho bản đồ + sprite thẻ, .ogg cho nhạc (tuỳ chọn)
+tools/pack.mjs       Đóng gói bản phát hành vào release/ (npm run pack)
+tools/e2e.mjs        Một client + 3 bot chơi trọn giải qua WebSocket
+deploy/              systemd unit + script cài service (Ubuntu)
+.env.example         Mẫu cài đặt máy chủ (token tunnel, địa chỉ, cổng)
 test/sim.test.js     Fuzz test engine
 docs/                Đặc tả
 ```
@@ -97,7 +102,7 @@ Prompt luôn là "chọn 1 trong danh sách": mỗi option `{id, k?, r?, c?, n?}
 | `sets` | `base` / `exp` / `all` | `all` |
 | `twists` | bật/tắt Biến Cố (mỗi chặng rút 1 lá khi đấu thủ đầu tiên vượt qua khúc cua 1) | tắt |
 | `double` | Chạy kép: mỗi người draft 8, ra sân 2 đấu thủ/chặng (chỉ khi ≤ 3 ghế) | tắt |
-| `speed` | 0.5 / 1 / 2 | 1 |
+| `speed` | 0.6 / 1 / 1.5 / 2.5 | 1 |
 | `timer` | giây cho mỗi prompt | 45 |
 
 Biến thể 2 người (file master không mô tả chi tiết) → thiết kế: 2 người + bot, hoặc bật `double`.
@@ -105,23 +110,39 @@ Biến thể 2 người (file master không mô tả chi tiết) → thiết k�
 ## 5. Client
 
 ### 5.1 Màn hình
-1. **Trang chủ**: tên, chọn ngôn ngữ, Tạo phòng / Nhập mã phòng. Link mời `/?room=ABCD`.
-2. **Sảnh**: 6 ghế màu, thêm/xoá bot, tuỳ chọn, nút Bắt đầu (≥ 3 ghế... hoặc 2 ghế khi `double`).
-3. **Draft**: hàng thẻ ngửa 2×N, lượt chọn snake, đội hình từng người.
-4. **Chặng đua**: cảnh 3D + HUD (bảng người chơi/điểm/tay bài, nhật ký, khung prompt, xem chi tiết thẻ).
-5. **Kết quả chặng / Chung cuộc**: bảng xếp hạng, chip điểm.
+Mọi URL trong client là **tương đối** nên game chạy được ở bất kỳ đường dẫn nào (vd `vuducan.qzz.io/game/`).
+
+1. **Trang chủ**: tên, chọn ngôn ngữ, Tạo phòng / Nhập mã phòng, 3 dòng tóm tắt cách chơi. Link mời `…/?room=ABCD`.
+2. **Sảnh**: mã phòng, 6 ghế (avatar màu, nhãn chủ phòng / bạn / bot), thêm/xoá bot, tuỳ chọn dạng nút gạt có chú thích, Rời phòng, nút Bắt đầu (khoá khi chưa đủ ghế).
+3. **Tung xúc xắc**: bảng kết quả từng người, nút tung (phím Enter), báo hoà → tung lại.
+4. **Tuyển mộ**: dải thứ tự chọn (snake), hàng thẻ, **chọn rồi mới xác nhận** (không chọn nhầm được), khay "Đội của bạn".
+5. **Chọn đấu thủ**: thông tin đường đua (số ô, 2 khúc cua, số ô đặc biệt, điểm thưởng) + tay bài của mình.
+6. **Chặng đua**: cảnh 3D +
+   - cột trái: người chơi, điểm, đấu thủ (chân dung, vị trí, thanh tiến độ), tay bài (của người khác là mặt sau);
+   - **thanh theo dõi** trên cùng: đường thẳng Xuất phát → Đích với ô đặc biệt, cờ khúc cua, quân của từng đấu thủ trượt theo;
+   - cột phải: nhật ký (bật/tắt được, chỉ tự cuộn khi đang ở cuối);
+   - giữa: thông báo kỹ năng (kèm hình thẻ), khung quyết định ở đáy, thanh đếm giờ dưới thanh tiêu đề;
+   - bấm quân cờ để xem thẻ, hoặc để trả lời khi game đang hỏi "chọn đấu thủ nào" (quân được chọn nhấp nháy vàng).
+7. **Kết quả chặng** (bục 🥇🥈 + bảng điểm + thanh chờ) và **Chung cuộc** (quán quân, bảng điểm, người thắng từng chặng, pháo giấy).
+8. **Thư viện thẻ** (tìm kiếm, lọc theo bộ), **Cách chơi**, **Cài đặt** (ngôn ngữ, đồ hoạ, âm thanh, toàn màn hình).
+
+Phím tắt: `1–6` chọn số, `Y`/`N`, `Enter` xác nhận, `Esc` đóng hộp thoại. Màn hình hẹp (≤ 900px): người chơi thành dải ngang, nhật ký thành ngăn kéo, camera zoom gần và tự bám theo đấu thủ đang đi.
+
+`ui.js` chỉ thay DOM khi nội dung đổi (`setHTML`), nên hover / cuộn / hoạt ảnh CSS không bị giật khi có sự kiện mới.
 
 ### 5.2 Cảnh 3D
 - Môi trường 3D theo chủ đề từng chặng (cây / pha lê bằng `InstancedMesh`, màu trời, sương, sao).
 - Bàn chơi = **ảnh bản đồ** (`assets/images/*.png|webp`) trải phẳng trên mặt bàn; vị trí và loại ô lấy từ `assets/tracks/track_N.json` (schema Phần V.2 file master). Không dựng lại bản đồ bằng hình khối.
-- Standee = ảnh PNG nhân vật **làm dày**: 7 lát cùng texture cắt theo alpha xếp chồng (dày 0.2 đơn vị), 2 mặt ngoài là hình, các lát giữa tô màu bìa; có bóng tròn mờ và vòng màu người chơi dưới chân, luôn quay về camera. Ngã = nằm bẹp 90°.
+- Kích thước bàn = tỉ lệ thật của file ảnh (server đọc header PNG/WebP/JPEG; client kiểm tra lại khi ảnh tải xong), không phụ thuộc `image_resolution` trong JSON.
+- Standee = ảnh PNG nhân vật **làm dày**: 7 lát cùng texture cắt theo alpha xếp chồng (dày 0.2 đơn vị), 2 mặt ngoài là hình, các lát giữa tô màu bìa; cao 6 đơn vị, có **viền trắng + mép tối** quanh hình (shader nở viền theo alpha) để nổi trên nền bản đồ, bóng tròn mờ, vòng màu người chơi dưới chân và huy hiệu chữ cái đầu tên chủ phía trên đầu (viền vàng = của bạn). Luôn quay về camera; ngã = nằm bẹp 90°.
+- Cờ khúc cua 1 / 2 cắm cạnh ô tương ứng.
 - Xúc xắc 3D lăn rồi dừng đúng mặt; hiệu ứng warp, loại, về đích.
-- Camera: OrbitControls (xoay/zoom/pan), tự bám nhẹ theo đấu thủ đang đi.
+- Camera: OrbitControls (xoay/zoom/pan). Mặc định tự lùi cho vừa cả bàn trong phần cửa sổ không bị HUD che (`setInsets` + `setViewOffset`); nút ⟲ đặt lại, ▦ nhìn từ trên xuống, nhấp đúp để đặt lại. Khi zoom gần thì tự bám nhẹ theo đấu thủ đang đi. Người chơi đã tự xoay thì game không tự chỉnh nữa.
 
 ### 5.3 Tối ưu
 - Giới hạn `devicePixelRatio` (1 / 1.5 / 2 theo mức chất lượng), bóng đổ chỉ ở mức Cao.
 - Trang trí dùng `InstancedMesh`; texture canvas nhỏ (256px), dùng chung geometry/material.
-- Bản đồ 8000×8000 PNG **không** nạp trực tiếp (256 MB VRAM): dùng bản `*.webp` 2048px do `tools/optimize-assets.mjs` tạo; client ưu tiên bản tối ưu.
+- Ảnh lớn (bản đồ, sprite thẻ): `tools/optimize-assets.mjs` tạo bản `*.webp` cạnh dài tối đa 4096px. Client dùng bản tối ưu **chỉ khi nó không cũ hơn file gốc** (so thời điểm sửa file trong manifest), nên thay file gốc không bao giờ bị hiện hình cũ.
 - Nhạc WAV 20–50 MB: phát dạng stream bằng `<audio>` (không giải mã vào RAM); khuyến nghị nén sang `.ogg/.mp3` (client tự ưu tiên).
 - Server: file tĩnh có `Cache-Control`, hỗ trợ `Range` cho audio; phòng rảnh 30 phút tự xoá; giới hạn kích thước message 8 KB.
 

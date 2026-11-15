@@ -107,8 +107,8 @@ const flagTex = (text, color) => canvasTex('F' + text + color, 128, 80, g => {
 });
 
 export class Scene {
-  constructor(canvas, hasAsset, assetUrl) {
-    this.hasAsset = hasAsset; this.assetUrl = assetUrl; this.canvas = canvas; this.tracks = TRACKS;
+  constructor(canvas, hasAsset, assetUrl, pickAsset) {
+    this.hasAsset = hasAsset; this.assetUrl = assetUrl; this.pickAsset = pickAsset; this.canvas = canvas; this.tracks = TRACKS;
     this.r = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
     this.r.shadowMap.type = THREE.PCFSoftShadowMap;
     this.scene = new THREE.Scene();
@@ -229,7 +229,7 @@ export class Scene {
   gi(pos) { return Math.max(0, Math.min(this.L, this.rev ? this.L - pos : pos)); }
   build(id, rev) {
     const base = this.tracks.find(t => t.id === id) || TRACKS.find(t => t.id === id);
-    const img = ['.webp', '.png', '.jpg'].map(e => base.img + e).find(f => this.hasAsset(f));
+    const img = this.pickAsset(base.img, ['.webp'], ['.png', '.jpg']);
     const key = id + (rev ? '~' : '') + (img && this.assetUrl(img)) + base.L;
     if (key === this.key) return;
     this.key = key;

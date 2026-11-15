@@ -6,10 +6,10 @@ const MUSIC = {
 };
 const el = new Audio();
 el.loop = true; el.volume = 0.35;
-let files = new Set(), url = f => 'assets/' + f, on = true, want = null, ctx = null;
+let pick = () => null, url = f => 'assets/' + f, on = true, want = null, ctx = null;
 try { on = localStorage.getItem('agp.sound') !== '0'; } catch {}
 
-export function initAudio(manifest, assetUrl) { files = manifest; url = assetUrl; }
+export function initAudio(pickAsset, assetUrl) { pick = pickAsset; url = assetUrl; }
 export const soundOn = () => on;
 export function toggleSound() {
   on = !on;
@@ -19,9 +19,9 @@ export function toggleSound() {
 }
 export function music(key) {
   want = key;
-  const base = MUSIC[key], ext = base && ['.ogg', '.mp3', '.wav'].find(e => files.has(`audio/${base}${e}`));
-  if (!on || !ext) { el.pause(); return; }
-  const src = url(`audio/${base}${ext}`);
+  const file = MUSIC[key] && pick('audio/' + MUSIC[key], ['.ogg', '.mp3'], ['.wav']);
+  if (!on || !file) { el.pause(); return; }
+  const src = url(file);
   if (!el.src.endsWith(src)) el.src = src;
   el.play().catch(() => {}); // blocked until the first user gesture; retried on next call
 }

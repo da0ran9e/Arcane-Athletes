@@ -52,7 +52,7 @@ const setOf = c => c[0] === 'T' ? 'twist' : CARD[c]?.set || 'base';
 // CSS showing a card's cell of its sprite sheet (optionally only the top `crop` share of it); '' when the sheet is missing.
 export function artStyle(code, crop = 1) {
   const id = (CARD[code] || TW[code])?.id, cl = id && cell(id), sh = cl && SHEETS[cl.sheet];
-  const file = sh && [sh.file.replace(/\.\w+$/, '.webp'), sh.file].find(f => S.assets.has(f));
+  const file = sh && S.pickAsset(sh.file.replace(/\.\w+$/, ''), ['.webp'], ['.jpg', '.png']);
   if (!file) return '';
   if (cl.sheet === 'twist') crop = 1;
   return `background-image:url(${S.assetUrl(file)});background-size:${sh.cols * 100}% ${sh.rows * 100 / crop}%;background-position:${cl.col / (sh.cols - 1 || 1) * 100}% ${cl.row / (sh.rows - crop || 1) * 100}%`;

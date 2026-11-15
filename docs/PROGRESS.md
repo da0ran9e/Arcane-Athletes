@@ -28,8 +28,21 @@
 - [x] Luật bế tắc: 12 vòng không ai tiến thêm thì dừng chặng (⚖ cần xác nhận). Lý do: bản đồ mới + xúc xắc cố định có thể lặp vô tận.
 - [x] Chạy được dưới đường dẫn con (`BASE_PATH=/game`), client chỉ dùng URL tương đối.
 - [x] Đóng gói: `run.mjs`, `.env.example`, `start.sh`, `start.bat`, `deploy/`, `npm run pack` → `release/`.
-- [ ] CHƯA thử: mở trang dưới `/game/` bằng trình duyệt thật; tunnel Cloudflare thật; Windows; systemd. Mới thử route HTTP, trọn một ván qua `/game/ws`, và launcher với cloudflared giả.
-- [ ] CHƯA cập nhật `SPEC.md` §5 và `RULES_ENGINE.md` cho giao diện mới / luật bế tắc.
+- [x] Asset tối ưu (.webp/.ogg) chỉ được dùng khi không cũ hơn file gốc; `optimize-assets` làm thêm sprite thẻ.
+
+Đã thử ở đợt này:
+- `npm test` (3 bài): 600 giải ngẫu nhiên trên cả track dựng sẵn lẫn track từ file; bài riêng cho luật bế tắc.
+- Chrome headless, cả máy tính (1400px) và điện thoại (390px): mọi màn hình, không lỗi console.
+- Dưới tiền tố `/game`: chuyển hướng `/game` → `/game/`, tải asset, WebSocket, tạo phòng, phím Enter, bật/tắt nhật ký, chọn-rồi-xác-nhận; trọn một ván qua `/game/ws`.
+- Bản giải nén từ `release/`: tự tạo `.env`, chạy không cần `npm install`, trọn một ván.
+- `run.mjs` với cloudflared **giả**: truyền token qua biến môi trường, tự bật lại khi connector dừng, dừng theo khi tắt; báo rõ khi chưa cài cloudflared.
+- `optimize-assets` với `sharp` (ảnh). Bộ đọc kích thước PNG / WebP / JPEG khớp với `sips`.
+
+CHƯA thử được (không có điều kiện trên máy này):
+- [ ] Tunnel Cloudflare thật với token thật và ô Path trên dashboard.
+- [ ] `start.bat` và Task Scheduler trên Windows; `deploy/install-service.sh` trên Ubuntu (mới kiểm cú pháp).
+- [ ] Phần nén nhạc bằng `ffmpeg` trong `optimize-assets`.
+- [ ] Người thật chơi nhiều máy; điện thoại thật (mới giả lập kích thước).
 
 ## Đã kiểm thử
 - `npm test`: 600 giải đấu ngẫu nhiên (3–6 người, mọi tuỳ chọn, trả lời ngẫu nhiên) chạy hết, không treo; mọi kỹ năng có `fire()` đều đã kích hoạt ít nhất 1 lần.

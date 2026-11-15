@@ -15,9 +15,10 @@ fs.mkdirSync(DST, { recursive: true });
 // Heavy originals are left out when a web-friendly version sits next to them (the client prefers .webp / .ogg / .mp3).
 const skipped = [];
 function redundant(file) {
-  const base = file.replace(/\.\w+$/, ''), ext = path.extname(file).toLowerCase();
-  if (ext === '.wav') return ['.ogg', '.mp3'].some(e => fs.existsSync(base + e));
-  if (ext === '.png' || ext === '.jpg') return fs.existsSync(base + '.webp');
+  const base = file.replace(/\.\w+$/, ''), ext = path.extname(file).toLowerCase(), at = fs.statSync(file).mtimeMs;
+  const fresh = e => fs.existsSync(base + e) && fs.statSync(base + e).mtimeMs >= at; // same rule as the game: stale copies do not count
+  if (ext === '.wav') return ['.ogg', '.mp3'].some(fresh);
+  if (ext === '.png' || ext === '.jpg') return fresh('.webp');
   return false;
 }
 const filter = src => {
