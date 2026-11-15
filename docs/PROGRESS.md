@@ -54,6 +54,31 @@ CHƯA thử được:
 - [ ] `start-server.cmd` và `get-node.ps1` trên Windows thật (máy này không có Windows hay PowerShell).
 - [ ] Tải cloudflared thật từ GitHub rồi nối tunnel thật.
 
+## Đợt 6 (2026-11-15) — lên mạng thật
+
+- [x] **Game đã chạy thật tại https://game.vuducan.qzz.io/arcaneathletes/**
+- [x] `run.mjs`: thêm chế độ chạy tunnel bằng file config (`TUNNEL_CONFIG`, `TUNNEL_NAME`) bên cạnh chế độ token. Cần vì định tuyến theo đường dẫn chỉ khai được trong file config, không khai được trên dashboard. Ở chế độ này token bị xoá khỏi môi trường tiến trình con để cloudflared không ưu tiên nhầm.
+- [x] Tách tài liệu: `README.md` chỉ còn mô tả game; phần cài đặt/chạy/biến `.env` sang `SETUP.md` (mới); `DEPLOY.md` chỉ còn việc đưa lên mạng.
+- [x] `.gitignore`: asset mới không tự vào git (binary lớn). File đã track không ảnh hưởng.
+
+Tự rút ra khi triển khai thật (đã ghi vào `DEPLOY.md`):
+- `vuducan.qzz.io/game` **không khả thi**: hostname gốc trỏ thẳng (DNS-only) vào GitHub Pages cho portfolio nên request không bao giờ đi qua tunnel — 404 nhận được là 404 của site portfolio. Một hostname chỉ có một origin.
+- Lệnh `cloudflared tunnel route dns` **phải kèm `--config`**: nếu không, `~/.cloudflared/config.yml` (của tunnel khác) ghi đè tên tunnel truyền trên dòng lệnh và DNS trỏ nhầm tunnel. Lần đầu bị đúng lỗi này: DNS trỏ sang tunnel `photos`, ra `error 1033`.
+- Cùng nguyên nhân: file config mặc định có `ingress` cũng nuốt luôn cờ `--url` của quick tunnel, làm mọi request rơi vào `http_status:404`.
+- Sau khi đổi DNS, các edge Cloudflare lan dần 1–2 phút: trong lúc đó có request lác đác trả 530/1033. Không phải lỗi cấu hình.
+
+Đã thử trên Windows thật (máy này) — giải quyết các mục "CHƯA thử được" của Đợt 5:
+- [x] `start-server.cmd` bấm đúp: lên server + tunnel, **không hỏi gì** khi `.env` đã có tham số; public trả 200.
+- [x] `cloudflared` thật, tunnel thật (`aetheria`), 4 kết nối tới hkg.
+- [x] Định tuyến theo đường dẫn: `/arcaneathletes/` 200, `/arcaneathletes` → 302 về có dấu `/`, `/arcaneathletes/healthz`, `/api/tracks`, `/api/manifest` đều 200; gốc `/` trả 404 theo catch-all; WebSocket upgrade 101.
+- [x] `tools/e2e.mjs` qua **link công khai**: trọn giải 4 chặng, 535 sự kiện, 16 lượt quyết định, 168s, không chặng nào bị huỷ. WebSocket giữ kết nối suốt 168s qua Cloudflare không rớt.
+- [x] 20/20 request liên tiếp trả 200 sau khi DNS lan xong.
+
+CHƯA thử được:
+- [ ] Task Scheduler trên Windows; `deploy/install-service.sh` trên Ubuntu.
+- [ ] Phần nén nhạc bằng `ffmpeg` trong `optimize-assets`.
+- [ ] Người thật chơi nhiều máy cùng lúc; điện thoại thật.
+
 ## Đã kiểm thử
 - `npm test`: 600 giải đấu ngẫu nhiên (3–6 người, mọi tuỳ chọn, trả lời ngẫu nhiên) chạy hết, không treo; mọi kỹ năng có `fire()` đều đã kích hoạt ít nhất 1 lần.
 - `tools/e2e.mjs`: trọn 1 giải qua WebSocket thật.
@@ -66,7 +91,6 @@ CHƯA thử được:
 - [ ] Chưa thử với asset thật (sprite thẻ, standee PNG, ảnh bản đồ, nhạc) — code đường dẫn đã có nhưng chưa chạy với file thật.
 - [ ] Chưa có unit test khẳng định đúng luật cho từng kỹ năng (mới chỉ fuzz chống crash).
 - [ ] Bot chơi theo heuristic đơn giản (draft và chọn đấu thủ ngẫu nhiên).
-- [ ] Chưa triển khai Cloudflare Tunnel (hướng dẫn ở `DEPLOY.md`).
 - [ ] Khớp toạ độ ô với ảnh bản đồ thật khi có ảnh (`ASSETS.md` §4).
 - [ ] Ngoài phạm vi v1: xem `SPEC.md` §8.
 

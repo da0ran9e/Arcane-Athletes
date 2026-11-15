@@ -1,7 +1,7 @@
 # Aetheria Grand Prix — Đặc tả kỹ thuật (v1)
 
 > Tài liệu backup công việc. Nguồn luật gốc: `GAME_RULES_AND_ASSETS_MASTER.md`.
-> Tài liệu liên quan: `RULES_ENGINE.md` (diễn giải luật + 72 kỹ năng), `ASSETS.md` (tài nguyên), `DEPLOY.md` (chạy/triển khai), `PROGRESS.md` (tiến độ).
+> Tài liệu liên quan: `RULES_ENGINE.md` (diễn giải luật + 72 kỹ năng), `ASSETS.md` (tài nguyên), `SETUP.md` (cài đặt/chạy), `DEPLOY.md` (đưa lên mạng), `PROGRESS.md` (tiến độ).
 
 ## 1. Mục tiêu
 
@@ -110,7 +110,7 @@ Biến thể 2 người (file master không mô tả chi tiết) → thiết k�
 ## 5. Client
 
 ### 5.1 Màn hình
-Mọi URL trong client là **tương đối** nên game chạy được ở bất kỳ đường dẫn nào (vd `vuducan.qzz.io/game/`).
+Mọi URL trong client là **tương đối** nên game chạy được ở bất kỳ đường dẫn nào (vd `game.vuducan.qzz.io/arcaneathletes/`).
 
 1. **Trang chủ**: tên, chọn ngôn ngữ, Tạo phòng / Nhập mã phòng, 3 dòng tóm tắt cách chơi. Link mời `…/?room=ABCD`.
 2. **Sảnh**: mã phòng, 6 ghế (avatar màu, nhãn chủ phòng / bạn / bot), thêm/xoá bot, tuỳ chọn dạng nút gạt có chú thích, Rời phòng, nút Bắt đầu (khoá khi chưa đủ ghế).
