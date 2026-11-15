@@ -70,9 +70,12 @@ async function askToken() {
 }
 
 const rawToken = (process.env.TUNNEL_TOKEN || '').trim(), tunnelOff = /^off$/i.test(rawToken); // off = never ask (cloudflared runs as a service)
+// TUNNEL_CONFIG = a cloudflared config file (ingress rules live there, not on the dashboard). It replaces the token:
+// needed when the game shares a hostname with other services and is routed by path.
+const tunnelConfig = (process.env.TUNNEL_CONFIG || '').trim();
 let tunnel = parseToken(rawToken);
-if (!tunnel && rawToken && !tunnelOff) log('TUNNEL_TOKEN trong .env không đúng dạng (thiếu ký tự?).');
-if (!tunnel && !tunnelOff && interactive) {
+if (!tunnel && rawToken && !tunnelOff && !tunnelConfig) log('TUNNEL_TOKEN trong .env không đúng dạng (thiếu ký tự?).');
+if (!tunnel && !tunnelOff && !tunnelConfig && interactive) {
   tunnel = await askToken();
   if (tunnel) {
     saveEnv('TUNNEL_TOKEN', tunnel.token);
@@ -140,8 +143,10 @@ function installHint() {
       : '      Cài theo https://pkg.cloudflare.com (Ubuntu: thêm kho rồi "sudo apt install cloudflared")');
 }
 
-if (tunnelOff) log('TUNNEL_TOKEN=off: không bật tunnel từ đây.');
-else if (!tunnel) {
+if (tunnelConfig && !fs.existsSync(tunnelConfig)) {
+  console.error(`[run] Không thấy file TUNNEL_CONFIG: ${tunnelConfig} (game vẫn chạy trong máy này).`);
+} else if (tunnelOff && !tunnelConfig) log('TUNNEL_TOKEN=off: không bật tunnel từ đây.');
+else if (!tunnel && !tunnelConfig) {
   log('Chưa có TUNNEL_TOKEN: game chỉ vào được từ máy này.');
   log('Dán token vào .env (hoặc chạy lại trong cửa sổ dòng lệnh để được hỏi) để lên mạng; ghi TUNNEL_TOKEN=off nếu máy đã chạy cloudflared dạng service.');
 } else {
@@ -159,7 +164,14 @@ else if (!tunnel) {
       const started = Date.now();
       online = false;
       // the token travels in the environment, not on the command line, so it does not show up in process listings
-      try { child = spawn(bin, ['tunnel', '--no-autoupdate', 'run'], { env: { ...process.env, TUNNEL_TOKEN: tunnel.token }, stdio: ['ignore', 'pipe', 'pipe'] }); }
+      const env = { ...process.env };
+      const args = ['tunnel', '--no-autoupdate', 'run'];
+      if (tunnelConfig) { // config mode: the file names the tunnel and its credentials, so no token may be in the environment
+        args.splice(1, 0, '--config', tunnelConfig);
+        delete env.TUNNEL_TOKEN;
+        if (process.env.TUNNEL_NAME) args.push(process.env.TUNNEL_NAME);
+      } else env.TUNNEL_TOKEN = tunnel.token;
+      try { child = spawn(bin, args, { env, stdio: ['ignore', 'pipe', 'pipe'] }); }
       catch (e) { return failed(e); } // e.g. a file that is not a program for this machine
       for (const s of [child.stdout, child.stderr]) s.on('data', d => {
         for (const l of String(d).split(/\r?\n/)) if (l.trim()) {

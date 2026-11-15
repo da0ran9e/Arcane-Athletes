@@ -5,3 +5,8 @@ release/
 # downloaded by the launchers: portable Node.js (start-server.cmd) and cloudflared (run.mjs)
 runtime/
 bin/
+
+# Asset moi khong tu vao git: anh/nhac la binary lon, repo phong rat nhanh.
+# File asset da duoc track van theo doi binh thuong (gitignore khong anh huong file da track).
+# Can them mot file cu the: git add -f public/assets/<duong-dan>
+public/assets/**

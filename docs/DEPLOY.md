@@ -1,6 +1,6 @@
 # Chạy & đưa lên mạng
 
-Địa chỉ dự kiến: **https://vuducan.qzz.io/game/** (qua Cloudflare Tunnel). Máy chủ Ubuntu hoặc Windows, RAM thực dùng < 200 MB.
+Địa chỉ dự kiến: **https://game.vuducan.qzz.io/arcaneathletes/** (qua Cloudflare Tunnel). Máy chủ Ubuntu hoặc Windows, RAM thực dùng < 200 MB.
 
 ## 1. Windows — bấm một file
 
@@ -10,7 +10,7 @@
    - chạy từ bản git → cài thư viện game (`npm ci`);
    - hỏi **Cloudflare Tunnel token**: dán vào (chuột phải hoặc Ctrl+V) rồi Enter. Token được lưu trong `.env`; file này nằm trong `.gitignore`, không bị đẩy lên GitHub;
    - máy chưa có `cloudflared` → tải bản chính thức từ GitHub của Cloudflare vào `bin\`.
-3. Cửa sổ hiện `✔ Đã lên mạng` → mở https://vuducan.qzz.io/game/. Nếu chưa vào được: làm **Bước 4** ở mục 2 (khai báo Public Hostname, chỉ một lần).
+3. Cửa sổ hiện `✔ Đã lên mạng` → mở https://game.vuducan.qzz.io/arcaneathletes/. Nếu chưa vào được: làm **Bước 4** ở mục 2 (khai báo Public Hostname, chỉ một lần).
 
 Lần sau chỉ cần bấm đúp. Tắt máy chủ: đóng cửa sổ. Đổi token: mở `.env`, xoá giá trị sau `TUNNEL_TOKEN=` rồi chạy lại để được hỏi. Máy đã chạy `cloudflared` dạng service cho đúng tunnel này: ghi `TUNNEL_TOKEN=off` để không bị hỏi nữa.
 
@@ -32,29 +32,44 @@ Windows có thể hiện cảnh báo bảo mật với file tải từ mạng: c
 **Bước 3 — Dán token**
 - Windows: `start-server.cmd` hỏi token và tự ghi vào `.env`. Ubuntu: chạy `./start.sh` trong cửa sổ dòng lệnh cũng được hỏi như vậy; hoặc mở `.env` (tự tạo ở lần chạy đầu), dán token vào sau `TUNNEL_TOKEN=`.
 - Token lấy ở Cloudflare dashboard → Zero Trust → Networks → Tunnels → chọn tunnel → Configure → "Install and run a connector". Dán cả dòng lệnh cũng được, chương trình tự lọc lấy token. Token thiếu ký tự khi copy sẽ bị báo ngay.
-- Các dòng còn lại đã điền sẵn cho `vuducan.qzz.io/game`:
+- Các dòng còn lại đã điền sẵn cho `game.vuducan.qzz.io/arcaneathletes`:
 
   | Biến | Giá trị | Ý nghĩa |
   |---|---|---|
-  | `PUBLIC_URL` | `https://vuducan.qzz.io/game/` | địa chỉ người chơi mở |
-  | `BASE_PATH` | `/game` | game nằm dưới đường dẫn này |
+  | `PUBLIC_URL` | `https://game.vuducan.qzz.io/arcaneathletes/` | địa chỉ người chơi mở |
+  | `BASE_PATH` | `/arcaneathletes` | game nằm dưới đường dẫn này |
   | `PORT` | `3000` | cổng nội bộ |
   | `HOST` | `127.0.0.1` | chỉ vào được qua tunnel; đổi `0.0.0.0` nếu muốn máy trong LAN vào thẳng |
 
 **Bước 4 — Khai báo đường đi trong Cloudflare (làm 1 lần)**
 
-Tunnel dùng token được cấu hình trên dashboard, không phải trong thư mục game. Vào tunnel → tab **Public Hostname** → Add:
+Game chạy bằng **tunnel riêng tên `aetheria`, cấu hình bằng file** (không dùng token + dashboard), vì nó dùng chung hostname `game.vuducan.qzz.io` với dịch vụ khác và được chia theo đường dẫn — ingress kiểu path phải nằm trong file config.
 
-| Ô | Điền |
-|---|---|
-| Subdomain | (để trống) |
-| Domain | `vuducan.qzz.io` |
-| Path | `game` |
-| Service | Type `HTTP`, URL `localhost:3000` |
+1. Tạo tunnel (dùng `cert.pem` có sẵn sau `cloudflared tunnel login`):
+   ```
+   cloudflared tunnel create aetheria
+   ```
+2. Tạo file `~/.cloudflared/aetheria.yml` (Windows: `C:\Users\<tên>\.cloudflared\aetheria.yml`):
+   ```yaml
+   tunnel: aetheria
+   credentials-file: C:\Users\<tên>\.cloudflared\<tunnel-id>.json
+   ingress:
+     - hostname: game.vuducan.qzz.io
+       path: ^/arcaneathletes
+       service: http://127.0.0.1:3000
+     - service: http_status:404
+   ```
+   Dùng `127.0.0.1`, **không** dùng `localhost`: trên Windows cloudflared resolve `localhost` ra IPv6 `[::1]` trước, server chỉ nghe IPv4 sẽ bị từ chối.
+3. Trỏ DNS về tunnel. **Bắt buộc có `--config`**, nếu không `~/.cloudflared/config.yml` (của tunnel khác) sẽ ghi đè tên tunnel truyền trên dòng lệnh và DNS trỏ nhầm tunnel:
+   ```
+   cloudflared --config ~/.cloudflared/aetheria.yml tunnel route dns --overwrite-dns aetheria game.vuducan.qzz.io
+   ```
+   Output phải hiện đúng tunnel id của `aetheria`. Kiểm tra thêm: `cloudflared --config ~/.cloudflared/aetheria.yml tunnel ingress validate` và `... tunnel ingress rule https://game.vuducan.qzz.io/arcaneathletes/`.
+4. Trong `.env` đặt `TUNNEL_TOKEN=off`, `TUNNEL_CONFIG=<đường dẫn aetheria.yml>`, `TUNNEL_NAME=aetheria`, rồi chạy `./start.sh` / `start-server.cmd`.
 
-Rồi chạy lại `./start.sh` / `start-server.cmd`. Khi log hiện `✔ Đã lên mạng` thì mở https://vuducan.qzz.io/game/.
+Sau khi đổi DNS, các edge của Cloudflare lan dần trong khoảng 1-2 phút: trong lúc đó có request lác đác trả **530 / error 1033**. Đợi rồi thử lại trước khi đi tìm lỗi khác.
 
-Lưu ý về ô **Path**: Cloudflare chuyển nguyên đường dẫn (`/game/...`) về máy chủ, game tự bỏ tiền tố `/game`. Tôi chưa kiểm chứng được trên dashboard thật cách ô này so khớp (tài liệu chính thức chỉ nói rõ cho file cấu hình: đó là biểu thức chính quy). Nếu điền `game` mà vào `/game/` vẫn ra trang khác, thử `^/game`.
+**Vì sao không dùng `vuducan.qzz.io/game`:** hostname gốc trỏ thẳng (DNS-only) vào GitHub Pages cho portfolio, nên request không bao giờ đi qua tunnel — trả về 404 của chính site portfolio. Một hostname chỉ có một origin.
 
 ## 3. Chạy nền, tự bật khi khởi động máy
 
