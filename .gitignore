@@ -10,3 +10,5 @@ bin/
 # File asset da duoc track van theo doi binh thuong (gitignore khong anh huong file da track).
 # Can them mot file cu the: git add -f public/assets/<duong-dan>
 public/assets/**
+/public/assets
+/public/assets
