@@ -44,8 +44,12 @@ function getManifest() {
 
 // ---------- static files ----------
 function serve(req, res) {
-  let url;
-  try { url = decodeURIComponent(new URL(req.url, 'http://x').pathname); } catch { res.writeHead(400).end(); return; }
+  let url, versioned = false;
+  try {
+    const u = new URL(req.url, 'http://x');
+    url = decodeURIComponent(u.pathname);
+    versioned = u.searchParams.has('v'); // the client stamps every asset URL with ?v=<mtime> (main.js assetUrl)
+  } catch { res.writeHead(400).end(); return; }
   if (BASE) {
     const prefixed = url === BASE || url.startsWith(BASE + '/');
     if (prefixed) url = url.slice(BASE.length);
@@ -66,7 +70,12 @@ function serve(req, res) {
     const mtime = st.mtime.toUTCString();
     const head = {
       'Content-Type': MIME[path.extname(file).toLowerCase()] || 'application/octet-stream', 'Last-Modified': mtime, 'Accept-Ranges': 'bytes',
-      'Cache-Control': url.startsWith('/vendor/') ? 'public, max-age=86400' : 'no-cache', // assets revalidate so replaced files show at once
+      // A ?v= URL names one exact version of the file, so it can be cached hard: replacing the file changes its
+      // mtime, the manifest, and therefore the URL. Without ?v= nothing proves freshness, so revalidate every time.
+      // This is what lets Cloudflare serve repeat players from its edge instead of pulling through the tunnel.
+      'Cache-Control': url.startsWith('/vendor/') ? 'public, max-age=86400'
+        : versioned ? 'public, max-age=31536000, immutable'
+        : 'no-cache',
     };
     if (req.headers['if-modified-since'] === mtime) return res.writeHead(304, head).end();
     const m = /^bytes=(\d*)-(\d*)$/.exec(req.headers.range || '');
