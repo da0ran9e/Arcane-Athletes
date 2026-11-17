@@ -12,3 +12,6 @@ bin/
 public/assets/**
 /public/assets
 /public/assets
+
+# Mod Tabletop Simulator da don khoi public/assets (xoa duoc khi khong con can)
+_tts-mod/
